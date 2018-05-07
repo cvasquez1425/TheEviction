@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TheEviction.Entities.Models.Client>
+
+@section scripts {
+
+}
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Contact)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompanyType)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClientName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contact.ContactName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyType.CompanyTypeName)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<div class="row">
+    <form method="get" id="searchClient">
+        <div class="col-md-3">
+            <p>
+                <a asp-action="Create">Create New</a>
+            </p>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <input class="form-control" type="text" id="clientName" name="clientName" placeholder="Search Facility, Client Name" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a href="#" class="btn btn-sm btn-info">
+                <i class="fa fa-search"></i>
+            </a>
+        </div>
+    </form>
+</div>

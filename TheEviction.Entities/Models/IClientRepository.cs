@@ -7,6 +7,7 @@ namespace TheEviction.Entities.Models
 {
     public interface IClientRepository
     {
-        
+        Client GetClientByName(string clientName);
+        IEnumerable<Client> GetTopClientDataTables();
     }
 }

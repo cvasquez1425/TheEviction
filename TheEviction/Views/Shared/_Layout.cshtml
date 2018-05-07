@@ -10,6 +10,10 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <!-- This is bootswatch v3.3.7 -->
         <link rel="stylesheet" href="~/lib/dist/bootswatch/yeti/bootstrap.min.css" />
+        <!-- Font Awesome-->
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <!-- CSS dataTables-->
+        <link rel="stylesheet" href="~/lib/datatables/media/css/jquery.dataTables.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -21,7 +25,7 @@
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div id="main" class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -36,18 +40,36 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">Washington FED</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">Oregon FED</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Clients</a></li>
+                    <li><a asp-area="" asp-controller="Client" asp-action="Client">Clients</a></li>
                 </ul>
-                <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
+                <span class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</span>
+                <ul class="nav navbar-nav navbar-right" style="margin-top:5px;">
+                    <li>
+                        <a href="#" class="btn btn-sm btn-info">
+                            <i class="fa fa-save"></i> Save
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="btn btn-sm btn-info">
+                            <i class="fa fa-print"></i> Print
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
     <div class="container body-content">
-        @RenderBody()
+        <div>
+            @RenderBody()
+        </div>
         <hr />
-        <footer>
-            <p>&copy; 2018 - TheEviction</p>
-        </footer>
+        <div id="footer" class="container-fluid">
+            <footer>
+                <div class="navbar navbar-inverse navbar-fixed-bottom">
+                    <h4 class="text-center text-info">&copy; 2018 - The Tenant and Landlord Practice</></h4>
+                </div>
+            </footer>
+        </div>
     </div>
 
     <environment include="Development">
@@ -57,7 +79,8 @@
         <script src="~/lib/dist/jquery/jquery.min.js"></script>
         <!-- Bootstrap v3.3.7 -->
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
+        <!--JS dataTable 1.10.13-->
+        <script src="~/lib/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">

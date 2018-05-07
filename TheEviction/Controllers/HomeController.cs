@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿#region Includes
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using TheEviction.Models;
+#endregion
 
 namespace TheEviction.Controllers
 {
@@ -32,6 +30,11 @@ namespace TheEviction.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Client()
+        {
+            return View();
         }
     }
 }
