@@ -21,9 +21,9 @@ namespace TheEviction.Controllers.ClientRequest
             _context = context;
             _repository = repository;
         }
-
-        // GET: Client Data TEST
-        public IActionResult Client()
+      
+        //GET: Client Data TEST
+        public IActionResult Index()
         {
             try
             {
@@ -41,11 +41,11 @@ namespace TheEviction.Controllers.ClientRequest
         }
 
         // GET: Client
-        public async Task<IActionResult> Index()
-        {
-            var evictionDevContext = _context.Client.Include(c => c.Address).Include(c => c.CompanyType).Include(c => c.Contact).Include(c => c.County).Include(c => c.Facility).Include(c => c.Phone);
-            return View(await evictionDevContext.ToListAsync());
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    var evictionDevContext = _context.Client.Include(c => c.Address).Include(c => c.CompanyType).Include(c => c.Contact).Include(c => c.County).Include(c => c.Facility).Include(c => c.Phone);
+        //    return View(await evictionDevContext.ToListAsync());
+        //}
 
         // GET: Client/Details/5
         public async Task<IActionResult> Details(int? id)

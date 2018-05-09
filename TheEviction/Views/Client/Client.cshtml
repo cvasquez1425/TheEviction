@@ -1,10 +1,15 @@
 ﻿@model IEnumerable<TheEviction.Entities.Models.Client>
 
 @section scripts {
-
+    <environment exclude="Development">
+        <script src="~/lib/_app/datatables.js"></script>
+    </environment>
+    <environment include="Development">
+        <script src="~/js/datatables.js"></script>
+    </environment>
 }
 <div class="row">
-    <table class="table">
+    <table id="tblClient" class="table">
         <thead>
             <tr>
                 <th>
@@ -41,8 +46,13 @@
     <form method="get" id="searchClient">
         <div class="col-md-3">
             <p>
-                <a asp-action="Create">Create New</a>
+                <a asp-action="Create" class="btn btn-danger">Create New</a>
             </p>
+        </div>
+        <div class="col-md-12">
+            <a asp-action="Create" class="btn btn-default">Create New</a>
+            <a asp-action="Edit" class="btn btn-info">Create New</a>
+            <a asp-action="Delete" class="btn btn-danger">Create New</a>
         </div>
         <div class="col-md-3">
             <div class="form-group">

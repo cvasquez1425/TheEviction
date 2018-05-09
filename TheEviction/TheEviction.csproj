@@ -56,4 +56,8 @@
     <ProjectReference Include="..\TheEviction.Entities\TheEviction.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\dist\jquery\" />
+  </ItemGroup>
+
 </Project>

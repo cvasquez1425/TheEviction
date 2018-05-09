@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='clean' AfterBuild='scripts, min' Clean='clean' />
+﻿/// <binding AfterBuild='minifyDatatables, minifySiteCss' />
 //The following table provides an explanation of the tasks specified in the code above:
 
 //Task Name	    Description
@@ -43,6 +43,21 @@ paths.minCss = paths.webroot + "css/**/*.min.css";
 paths.concatJsDest = paths.webroot + "js/site.min.js";
 paths.concatCssDest = paths.webroot + "css/site.min.css";
 
+//css/site.css
+gulp.task("minifySiteCss", function () {
+    return gulp.src(paths.webroot + "/css/*.css")
+        .pipe(cssmin())
+        .pipe(gulp.dest(paths.webroot + "/lib/_app"));
+});
+
+//minifyDatatables.
+gulp.task("minifyDatatables", function () {
+    return gulp.src(paths.webroot + "/js/*.js")
+        .pipe(uglify())                                     // fluent syntax. Simply take each file and minify, uglify, compress them down.
+        .pipe(gulp.dest(paths.webroot + "/lib/_app"));        // save them after they've been compressed.
+});
+
+//============cleant task BEGIN=================
 gulp.task("clean:js", function (cb) {
     rimraf(paths.concatJsDest, cb);
 });
@@ -52,7 +67,9 @@ gulp.task("clean:css", function (cb) {
 });
 
 gulp.task("clean", ["clean:js", "clean:css"]);
+//============cleant task END=================
 
+//=============min task BEGIN======================
 gulp.task("min:js", function () {
     return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
         .pipe(concat(paths.concatJsDest))
@@ -68,6 +85,7 @@ gulp.task("min:css", function () {
 });
 
 gulp.task("min", ["min:js", "min:css"]);
+//=============min task END======================
 
 gulp.task("scripts", function () {
 
@@ -76,6 +94,7 @@ gulp.task("scripts", function () {
     for (var prop in deps) {
         console.log("Prepping Scripts for: " + prop);
         for (var itemProp in deps[prop]) {
+            //console.log("Prepping Scripts for: " + prop + "/" + itemProp);
             streams.push(gulp.src("node_modules/" + prop + "/" + itemProp)
                 .pipe(gulp.dest("wwwroot/lib/dist/" + prop + "/" + deps[prop][itemProp])));
         }
