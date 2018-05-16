@@ -1,13 +1,10 @@
 ﻿@model TheEviction.Entities.Models.Client
 
-<h4>This is the route @ViewBag.Foo</h4> 
-
-<h2>Create</h2>
-
+<h4>Client</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="_NewClient">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ClientNum" class="control-label"></label>
@@ -21,27 +18,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="CompanyTypeId" class="control-label"></label>
-                <select asp-for="CompanyTypeId" class="form-control" asp-items="ViewBag.CompanyTypeId"></select>
+                <select asp-for="CompanyTypeId" class ="form-control" asp-items="ViewBag.CompanyTypeId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="FacilityId" class="control-label"></label>
-                <select asp-for="FacilityId" class="form-control" asp-items="ViewBag.FacilityId"></select>
+                <select asp-for="FacilityId" class ="form-control" asp-items="ViewBag.FacilityId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="AddressId" class="control-label"></label>
-                <select asp-for="AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+                <select asp-for="AddressId" class ="form-control" asp-items="ViewBag.AddressId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ContactId" class="control-label"></label>
-                <select asp-for="ContactId" class="form-control" asp-items="ViewBag.ContactId"></select>
+                <select asp-for="ContactId" class ="form-control" asp-items="ViewBag.ContactId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="PhoneId" class="control-label"></label>
-                <select asp-for="PhoneId" class="form-control" asp-items="ViewBag.PhoneId"></select>
+                <select asp-for="PhoneId" class ="form-control" asp-items="ViewBag.PhoneId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="CountyId" class="control-label"></label>
-                <select asp-for="CountyId" class="form-control" asp-items="ViewBag.CountyId"></select>
+                <select asp-for="CountyId" class ="form-control" asp-items="ViewBag.CountyId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
@@ -94,4 +91,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

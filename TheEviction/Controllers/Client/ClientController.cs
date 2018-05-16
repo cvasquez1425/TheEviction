@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheEviction.Entities.Models;
+using TheEviction.Entities.ViewModels;
 #endregion
 
 namespace TheEviction.Controllers.ClientRequest
@@ -47,32 +49,8 @@ namespace TheEviction.Controllers.ClientRequest
         //    return View(await evictionDevContext.ToListAsync());
         //}
 
-        // GET: Client/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _context.Client
-                .Include(c => c.Address)
-                .Include(c => c.CompanyType)
-                .Include(c => c.Contact)
-                .Include(c => c.County)
-                .Include(c => c.Facility)
-                .Include(c => c.Phone)
-                .SingleOrDefaultAsync(m => m.ClientId == id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return View(client);
-        }
-
-        // GET: Client/Create
-        public IActionResult Create()
+        // GET: Client/CreateClient
+        public IActionResult CreateClient()
         {
             ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1");
             ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName");
@@ -80,7 +58,23 @@ namespace TheEviction.Controllers.ClientRequest
             ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName");
             ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName");
             ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum");
-            return View();
+            //return View();
+            return PartialView("CreateClient");
+
+        }
+
+        // GET: Client/Create
+        public IActionResult Create()
+        {
+            var newClient = new Client();
+
+            ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1");
+            ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName");
+            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactName");
+            ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName");
+            ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName");
+            ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum");
+            return View(Mapper.Map<ClientViewModel>(newClient));
         }
 
         // POST: Client/Create
@@ -88,21 +82,29 @@ namespace TheEviction.Controllers.ClientRequest
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientId,ClientNum,ClientName,CompanyTypeId,FacilityId,AddressId,ContactId,PhoneId,CountyId,Notes,IsActiveFlg,IsOfficeAccessFlg,CreatedDt,CreatedBy,ModifiedDt,ModifiedBy")] Client client)
+        public async Task<IActionResult> Create([Bind("ClientId,ClientNum,ClientName,CompanyTypeId,FacilityId,AddressId,ContactId,PhoneId,CountyId,Notes,IsActiveFlg,IsOfficeAccessFlg")] ClientViewModel theClient)
         {
+            // Calling an API is no different than calling a POST that results in a view.
+            // Use Automapper to switch from ClientViewModel to Client, ultimately we can't save the ViewModel to the database, we wanna convert into an actual Client object that we can store to the db.
             if (ModelState.IsValid)
             {
-                _context.Add(client);
+                var newClient = Mapper.Map<Client>(theClient); // we want a Client object, and we want to pass in the theClient
+
+                _context.Add(newClient);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //When we are done saving to the database.
+                return RedirectToAction(nameof(Index), Mapper.Map<ClientViewModel>(newClient));
             }
-            ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1", client.AddressId);
-            ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName", client.CompanyTypeId);
-            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactName", client.ContactId);
-            ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName", client.CountyId);
-            ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName", client.FacilityId);
-            ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum", client.PhoneId);
-            return View(client);
+            //if ModelState is Invalid
+            // InvalidOperationException: The model item passed into the ViewDataDictionary is of type 'TheEviction.Entities.ViewModels.ClientViewModel', but this ViewDataDictionary instance requires a model item of type 'TheEviction.Entities.Models.Client'.
+            ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1", theClient.AddressId);
+            ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName", theClient.CompanyTypeId);
+            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactName", theClient.ContactId);
+            ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName", theClient.CountyId);
+            ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName", theClient.FacilityId);
+            ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum", theClient.PhoneId);
+            ViewBag.Foo = "Client/Create Route";
+            return View(Mapper.Map<Client>(theClient));
         }
 
         // GET: Client/Edit/5
@@ -124,6 +126,30 @@ namespace TheEviction.Controllers.ClientRequest
             ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName", client.CountyId);
             ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName", client.FacilityId);
             ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum", client.PhoneId);
+            return View(client);
+        }
+
+        // GET: Client/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var client = await _context.Client
+                .Include(c => c.Address)
+                .Include(c => c.CompanyType)
+                .Include(c => c.Contact)
+                .Include(c => c.County)
+                .Include(c => c.Facility)
+                .Include(c => c.Phone)
+                .SingleOrDefaultAsync(m => m.ClientId == id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+
             return View(client);
         }
 

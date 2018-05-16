@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TheEviction.Entities.Models;
+using TheEviction.Entities.ViewModels;
 
 namespace TheEviction
 {
@@ -40,6 +42,11 @@ namespace TheEviction
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ClientContextSeedData seeder, ILoggerFactory factory)
         {
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<ClientViewModel, Client>().ReverseMap();  // ClientViewModel as my source, and I wanna return a Client.
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

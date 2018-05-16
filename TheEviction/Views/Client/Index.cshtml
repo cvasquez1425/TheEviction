@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<TheEviction.Entities.Models.Client>
 
+<div id="dialog-create-client" style="display: none">
+</div>
+
 @section scripts {
     <environment exclude="Development">
         <script src="~/lib/_app/datatables.js"></script>
@@ -10,8 +13,10 @@
 }
 <div class="row">
     <div class="col-md-12">
-        <a asp-action="Create" class="btn btn-success">Create New</a>
-        <a asp-action="Edit" class="btn btn-primary">Edit</a>
+        <a id="newClient" class="btn btn-success">Create New</a>
+        <p id="linkCreateClient" style="display: none">
+            <a asp-controller="Client" asp-action="CreateClient" id="lnkCreateClient"></a>
+        </p>
     </div>
 </div>
 <br />
@@ -28,6 +33,10 @@
                 <th>
                     @Html.DisplayNameFor(model => model.CompanyType)
                 </th>
+                <th style="display:none">
+                    @Html.DisplayNameFor(model => model.ClientId)
+                </th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +51,14 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CompanyType.CompanyTypeName)
+                    </td>
+                    <td style="display:none">
+                        @Html.DisplayFor(modelItem => item.ClientId)
+                    </td>
+                    <td>
+                        <a asp-action="Edit">
+                            <i class="fa fa-edit"></i>
+                        </a>
                     </td>
                 </tr>
             }

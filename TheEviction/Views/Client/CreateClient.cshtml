@@ -1,0 +1,83 @@
+﻿@model TheEviction.Entities.ViewModels.ClientViewModel
+
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="ClientNum" class="control-label"></label>
+            <input asp-for="ClientNum" class="form-control" />
+            <span asp-validation-for="ClientNum" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="ClientName" class="control-label"></label>
+            <input asp-for="ClientName" class="form-control" />
+            <span asp-validation-for="ClientName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="CompanyTypeId" class="control-label"></label>
+            <select asp-for="CompanyTypeId" class="form-control" asp-items="ViewBag.CompanyTypeId"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="FacilityId" class="control-label"></label>
+            <select asp-for="FacilityId" class="form-control" asp-items="ViewBag.FacilityId"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="AddressId" class="control-label"></label>
+            <select asp-for="AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="ContactId" class="control-label"></label>
+            <select asp-for="ContactId" class="form-control" asp-items="ViewBag.ContactId"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="PhoneId" class="control-label"></label>
+            <select asp-for="PhoneId" class="form-control" asp-items="ViewBag.PhoneId"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="CountyId" class="control-label"></label>
+            <select asp-for="CountyId" class="form-control" asp-items="ViewBag.CountyId"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="Notes" class="control-label"></label>
+            <input asp-for="Notes" class="form-control" />
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="IsOfficeAccessFlg" class="control-label"></label>
+            <input asp-for="IsOfficeAccessFlg" class="form-control" />
+            <span asp-validation-for="IsOfficeAccessFlg" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <div class="checkbox">
+                <label>
+                    <input asp-for="IsActiveFlg" /> @Html.DisplayNameFor(model => model.IsActiveFlg)
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-8 col-md-offset-5">
+            <input type="submit" value="Create" class="btn btn-success" />&nbsp;&nbsp;
+            <a asp-action="Index" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>
+
+@*<div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

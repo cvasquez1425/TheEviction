@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
   </ItemGroup>
 
@@ -56,8 +57,10 @@
     <ProjectReference Include="..\TheEviction.Entities\TheEviction.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\lib\dist\jquery\" />
-  </ItemGroup>
-
+<Target Name="TheEvictionBuild" BeforeTargets="Publish">
+  <Exec Command="npm install" />
+  <Exec Command="bower install" />
+  <Exec Command="node node_modules\\gulp\\bin\\gulp.js minifyDatatables" />
+  <Exec Command="node node_modules\\gulp\\bin\\gulp.js minifySiteCss" />
+</Target>
 </Project>
