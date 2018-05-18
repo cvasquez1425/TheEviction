@@ -1,25 +1,25 @@
 ﻿@model TheEviction.Entities.Models.Client
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<h1>Client Modal Example</h1>
 
-<h2>Edit</h2>
-
-<h4>Client</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="EditClient">
+            <div asp-validation-summary="ModelOnly"></div>
+            @if (ViewBag.UserMessage != null)
+            {
+                <div>@ViewBag.UserMessage</div>
+            }
+            <span>@ViewBag.id</span>
             <input type="hidden" asp-for="ClientId" />
             <div class="form-group">
-                <label asp-for="ClientNum" class="control-label"></label>
-                <input asp-for="ClientNum" class="form-control" />
+                <label asp-for="ClientNum"></label>
+                <input asp-for="ClientNum" class="form-control" placeholder="ClientNum" />
                 <span asp-validation-for="ClientNum" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClientName" class="control-label"></label>
+                <label asp-for="ClientName"></label>
                 <input asp-for="ClientName" class="form-control" />
                 <span asp-validation-for="ClientName" class="text-danger"></span>
             </div>
@@ -70,17 +70,21 @@
                 <input asp-for="IsOfficeAccessFlg" class="form-control" />
                 <span asp-validation-for="IsOfficeAccessFlg" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="row">
+                <div class="form-group col-md-8 col-md-offset-5">
+                    <input type="submit" value="Save" class="btn btn-success" />&nbsp;
+                    <a asp-action="Index" class="btn btn-primary">Cancel</a>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
 @*<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
+        <a asp-action="Index">Back to List</a>
+    </div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

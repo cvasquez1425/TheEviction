@@ -82,7 +82,7 @@ namespace TheEviction.Controllers.ClientRequest
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientId,ClientNum,ClientName,CompanyTypeId,FacilityId,AddressId,ContactId,PhoneId,CountyId,Notes,IsActiveFlg,IsOfficeAccessFlg")] ClientViewModel theClient)
+        public async Task<IActionResult> CreateClient([Bind("ClientId,ClientNum,ClientName,CompanyTypeId,FacilityId,AddressId,ContactId,PhoneId,CountyId,Notes,IsActiveFlg,IsOfficeAccessFlg")] ClientViewModel theClient)
         {
             // Calling an API is no different than calling a POST that results in a view.
             // Use Automapper to switch from ClientViewModel to Client, ultimately we can't save the ViewModel to the database, we wanna convert into an actual Client object that we can store to the db.
@@ -95,8 +95,6 @@ namespace TheEviction.Controllers.ClientRequest
                 //When we are done saving to the database.
                 return RedirectToAction(nameof(Index), Mapper.Map<ClientViewModel>(newClient));
             }
-            //if ModelState is Invalid
-            // InvalidOperationException: The model item passed into the ViewDataDictionary is of type 'TheEviction.Entities.ViewModels.ClientViewModel', but this ViewDataDictionary instance requires a model item of type 'TheEviction.Entities.Models.Client'.
             ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1", theClient.AddressId);
             ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName", theClient.CompanyTypeId);
             ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactName", theClient.ContactId);
@@ -104,7 +102,74 @@ namespace TheEviction.Controllers.ClientRequest
             ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName", theClient.FacilityId);
             ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum", theClient.PhoneId);
             ViewBag.Foo = "Client/Create Route";
-            return View(Mapper.Map<Client>(theClient));
+            //return View(Mapper.Map<Client>(theClient));
+            return View("CreateClient",Mapper.Map<ClientViewModel>(theClient));
+        }
+
+        // POST: Client/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditClient([Bind("ClientId,ClientNum,ClientName,CompanyTypeId,FacilityId,AddressId,ContactId,PhoneId,CountyId,Notes,IsActiveFlg,IsOfficeAccessFlg")] Client client)
+        {       
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //var newClient = Mapper.Map<Client>(theClient); // we want a Client object, and we want to pass in the theClient
+
+                    _context.Update(client);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ClientExists(client.ClientId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1", client.AddressId);
+            ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName", client.CompanyTypeId);
+            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactName", client.ContactId);
+            ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName", client.CountyId);
+            ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName", client.FacilityId);
+            ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum", client.PhoneId);
+            return View(client);
+            //return View("EditClient", Mapper.Map<ClientViewModel>(theClient));
+        }
+
+        // GET: EditClient/Edit/5
+        public async Task<IActionResult> EditClient(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var client = await _context.Client.SingleOrDefaultAsync(m => m.ClientId == id);
+            //var client = _context.Client.SingleOrDefault(m => m.ClientId == id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+            //var newClient = Mapper.Map<ClientViewModel>(client);
+
+            ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1", client.AddressId);
+            ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName", client.CompanyTypeId);
+            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactName", client.ContactId);
+            ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName", client.CountyId);
+            ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName", client.FacilityId);
+            ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum", client.PhoneId);
+            ViewBag.id = id;           
+            return View(client);
+            //return PartialView("EditClient");
         }
 
         // GET: Client/Edit/5
@@ -151,48 +216,7 @@ namespace TheEviction.Controllers.ClientRequest
             }
 
             return View(client);
-        }
-
-        // POST: Client/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClientId,ClientNum,ClientName,CompanyTypeId,FacilityId,AddressId,ContactId,PhoneId,CountyId,Notes,IsActiveFlg,IsOfficeAccessFlg,CreatedDt,CreatedBy,ModifiedDt,ModifiedBy")] Client client)
-        {
-            if (id != client.ClientId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.ClientId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "AddressLine1", client.AddressId);
-            ViewData["CompanyTypeId"] = new SelectList(_context.CompanyType, "CompanyTypeId", "CompanyTypeName", client.CompanyTypeId);
-            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactName", client.ContactId);
-            ViewData["CountyId"] = new SelectList(_context.County, "CountyId", "CountyName", client.CountyId);
-            ViewData["FacilityId"] = new SelectList(_context.Facility, "FacilityId", "FacilityName", client.FacilityId);
-            ViewData["PhoneId"] = new SelectList(_context.Phone, "PhoneId", "PhoneNum", client.PhoneId);
-            return View(client);
-        }
+        }       
 
         // GET: Client/Delete/5
         public async Task<IActionResult> Delete(int? id)

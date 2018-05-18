@@ -2,21 +2,36 @@
 
 <div id="dialog-create-client" style="display: none">
 </div>
+<div id="dialog-edit-client" style="display: none">
+</div>
 
 @section scripts {
+
+    <script src="~/js/formModal.js"></script>
     <environment exclude="Development">
         <script src="~/lib/_app/datatables.js"></script>
     </environment>
     <environment include="Development">
         <script src="~/js/datatables.js"></script>
     </environment>
+    <script type="text/javascript">
+        $(function () {
+            $('.search').click(function () {
+                var id = $(this).data('assigned-id');
+                var route = '@Url.Action("EditClient", "Client")?id=' + id;
+                $('#partial').load(route);
+            });
+
+            $('#newClient').click(function () {
+                var route = '@Url.Action("CreateClient", "Client")';
+                $('#partial').load(route);
+            });
+        });
+    </script>
 }
 <div class="row">
     <div class="col-md-12">
-        <a id="newClient" class="btn btn-success">Create New</a>
-        <p id="linkCreateClient" style="display: none">
-            <a asp-controller="Client" asp-action="CreateClient" id="lnkCreateClient"></a>
-        </p>
+        <a id="newClient" class="btn btn-success" data-toggle="modal" data-target="#editClientModalLong">Create New</a>      
     </div>
 </div>
 <br />
@@ -56,7 +71,7 @@
                         @Html.DisplayFor(modelItem => item.ClientId)
                     </td>
                     <td>
-                        <a asp-action="Edit">
+                        <a class="search" data-assigned-id="@item.ClientId" data-toggle="modal" data-target="#editClientModalLong">
                             <i class="fa fa-edit"></i>
                         </a>
                     </td>
@@ -65,3 +80,19 @@
         </tbody>
     </table>
 </div>
+
+<div class="modal fade in" id="editClientModalLong" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="margin: 10px auto !important;">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>*@
+            </div>
+            <div class="modal-body">
+                <div id="partial"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
