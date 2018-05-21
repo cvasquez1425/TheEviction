@@ -4,22 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Landlord and Tenant Practice</title>
-    
-        <!-- Latest compiled and minified CSS Bootstrap v3.3.7. There's something wrong with Bootstrap v4.1.0 and Carrousel -->
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <!-- This is bootswatch v3.3.7 -->
-        <link rel="stylesheet" href="~/lib/dist/bootswatch/yeti/bootstrap.min.css" />
-        <!-- Font Awesome-->
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
-        <!-- CSS dataTables-->
-        <link rel="stylesheet" href="~/lib/datatables/media/css/jquery.dataTables.min.css" />
-        <environment include="Development">
-            <link rel="stylesheet" href="~/css/site.css" />
-        </environment>
+
+    <!-- Latest compiled and minified CSS Bootstrap v3.3.7. There's something wrong with Bootstrap v4.1.0 and Carrousel -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- This is bootswatch v3.3.7 -->
+    <link rel="stylesheet" href="~/lib/dist/bootswatch/yeti/bootstrap.min.css" />
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <!-- CSS dataTables-->
+    <link rel="stylesheet" href="~/lib/datatables/media/css/jquery.dataTables.min.css" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
     <environment exclude="Development">
         <link href="~/lib/_app/site.css" rel="stylesheet" />
     </environment>
-       
+
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -31,11 +31,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <span class="nav navbar-text navbar-left" style="font-size:medium; font-weight:bold;">Greenspoon Marder</span>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LTPA</a>
             </div>
-            <div class="navbar-collapse collapse" id="menuPrinc">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>*@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">Washington FED</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">Oregon FED</a></li>
                     <li><a asp-area="" asp-controller="Client" asp-action="Index">Clients</a></li>

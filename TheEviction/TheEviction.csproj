@@ -59,8 +59,11 @@
 
 <Target Name="TheEvictionBuild" BeforeTargets="Publish">
   <Exec Command="npm install" />
-  <Exec Command="bower install" />
+  <!--<Exec Command="bower install" />-->
   <Exec Command="node node_modules\\gulp\\bin\\gulp.js minifyDatatables" />
   <Exec Command="node node_modules\\gulp\\bin\\gulp.js minifySiteCss" />
 </Target>
+  <PropertyGroup>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+  </PropertyGroup>
 </Project>

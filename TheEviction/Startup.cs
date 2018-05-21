@@ -24,6 +24,8 @@ namespace TheEviction
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        //Adding a service to the IServiceCollection container makes the service further available to the rest of the 
+        //application via the ASP.NET Core built-in Dependency injection system.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();

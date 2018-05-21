@@ -1,1 +1,1 @@
-!function(){$("#dialog-create-client").dialog({title:"Create New Client",autoOpen:!1,resizable:!1,width:720,height:600,show:{effect:"drop",direction:"up"},modal:!0,draggable:!0,open:function(e,t){$(".ui-dialog-titlebar-close").hide(),$(this).load(url)}});var e=$("#tblClient a.search");e.on("mousehover",function(){alert("TEST")})}();
+!function(){var n=$("#tblClient a.search");n.on("mouseover",function(){$(this).css("cursor","pointer")})}();

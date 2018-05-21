@@ -28,6 +28,7 @@ namespace TheEviction.Entities.Models
                     .Include(c => c.Contact)
                     .Include(c => c.CompanyType)
                     .Take(10)
+                    .OrderByDescending(c => c.CreatedDt)
                     .ToList();
         }
     }
